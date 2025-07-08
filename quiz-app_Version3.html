@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CIT 120 Chapter 1 Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; }
+    #feedback { margin-top: 1rem; font-weight: bold; }
+    .question-block { margin-bottom: 2rem; }
+    .option { display: block; margin: 0.5rem 0; }
+    #score { font-size: 1.2rem; margin-top: 2rem; }
+    button { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>CIT 120 Chapter 1 Quiz</h1>
+  <div id="question-block" class="question-block"></div>
+  <button id="submit-btn" onclick="submitAnswer()">Submit</button>
+  <div id="feedback"></div>
+  <div id="score"></div>
+
+  <script>
+    // Pool of 40 questions
+    const questionPool = [
+      // 1-10: Components, logic, steps, flowcharts, sentinel value, env, models
+      {
+        question: "Which of the following are the four main components of a computer system?",
+        options: [
+          "Hardware, Software, Data, Users",
+          "Monitor, Keyboard, Mouse, Printer",
+          "CPU, RAM, Hard Disk, Motherboard",
+          "Input, Output, Processing, Storage"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which is an example of hardware?",
+        options: [
+          "Monitor",
+          "Windows OS",
+          "Spreadsheet program",
+          "Data file"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which is NOT a component of software?",
+        options: [
+          "RAM",
+          "Operating System",
+          "Application",
+          "Utility Program"
+        ],
+        answer: 0
+      },
+      {
+        question: "Who are the 'users' in a computer system?",
+        options: [
+          "People who interact with the computer",
+          "Software programs",
+          "Peripheral devices",
+          "Network cables"
+        ],
+        answer: 0
+      },
+      {
+        question: "Data in a computer system refers to:",
+        options: [
+          "Information processed and stored",
+          "Physical hardware",
+          "The operating system",
+          "Users"
+        ],
+        answer: 0
+      },
+      {
+        question: "If a program asks a user for a number and displays 'Even' if the number is even and 'Odd' otherwise, which logic is correct?",
+        options: [
+          "If number % 2 == 0, display 'Even'; else display 'Odd'",
+          "If number == 2, display 'Even'; else display 'Odd'",
+          "If number / 2 == 1, display 'Even'; else display 'Odd'",
+          "If number is positive, display 'Even'; else display 'Odd'"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which is the first step in developing a program?",
+        options: [
+          "Analyze the problem",
+          "Test the program",
+          "Write the program",
+          "Maintain the program"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which pseudocode correctly calculates and displays the sum of two numbers entered by the user?",
+        options: [
+          "Prompt user for first number; Prompt user for second number; Sum = first number + second number; Display Sum",
+          "Display Sum; Prompt user for two numbers; Sum = first number - second number",
+          "Prompt user for first number; Sum = first number + second number; Display Sum",
+          "Prompt user for first number; Prompt user for second number; Sum = first number - second number; Display Sum"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which flowchart symbol is used for input or output?",
+        options: [
+          "Parallelogram",
+          "Oval",
+          "Rectangle",
+          "Diamond"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which code snippet correctly uses a sentinel value to end user input?",
+        options: [
+          "while (number != -1) { read number; // process number }",
+          "while (number == -1) { read number; // process number }",
+          "while (number > 0) { read number; // process number }",
+          "while (true) { read number; // process number }"
+        ],
+        answer: 0
+      },
+
+      // 11-20
+      {
+        question: "Which describes a user environment?",
+        options: [
+          "Where users interact with the application",
+          "Where developers write code",
+          "Where data is stored",
+          "Where hardware is assembled"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which best describes a programming environment?",
+        options: [
+          "Tools for developers to write and test programs",
+          "Place where users interact with apps",
+          "The physical computer case",
+          "Peripheral devices"
+        ],
+        answer: 0
+      },
+      {
+        question: "What is the last step in the program development cycle?",
+        options: [
+          "Maintain the program",
+          "Test the program",
+          "Document the program",
+          "Write the program"
+        ],
+        answer: 0
+      },
+      {
+        question: "What does a rectangle represent in a flowchart?",
+        options: [
+          "Process/Instruction",
+          "Decision",
+          "Input/Output",
+          "Start/End"
+        ],
+        answer: 0
+      },
+      {
+        question: "What is a sentinel value?",
+        options: [
+          "A special value that signals the end of input",
+          "The highest value in a data set",
+          "A default value for variables",
+          "A type of loop"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which programming model organizes code as procedures or functions?",
+        options: [
+          "Procedural",
+          "Object-Oriented",
+          "Event-Driven",
+          "Declarative"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which programming model defines objects with data and methods?",
+        options: [
+          "Object-Oriented",
+          "Procedural",
+          "Event-Driven",
+          "Batch"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which programming model responds to user or system events?",
+        options: [
+          "Event-Driven",
+          "Procedural",
+          "Object-Oriented",
+          "Functional"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which step involves writing documentation for a program?",
+        options: [
+          "Document the program",
+          "Design the solution",
+          "Test the program",
+          "Analyze the problem"
+        ],
+        answer: 0
+      },
+      {
+        question: "What symbol is used for a decision in a flowchart?",
+        options: [
+          "Diamond",
+          "Rectangle",
+          "Oval",
+          "Parallelogram"
+        ],
+        answer: 0
+      },
+
+      // 21-30
+      {
+        question: "What is the primary purpose of testing a program?",
+        options: [
+          "Ensure the program works correctly",
+          "Design the algorithm",
+          "Document the code",
+          "Maintain the program"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which of the following is NOT a step in the program development cycle?",
+        options: [
+          "Install hardware",
+          "Test the program",
+          "Document the program",
+          "Design the solution"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which is an example of a user environment?",
+        options: [
+          "Web browser",
+          "Text editor",
+          "Compiler",
+          "Debugger"
+        ],
+        answer: 0
+      },
+      {
+        question: "What is the main advantage of using pseudocode?",
+        options: [
+          "Helps plan logic without worrying about syntax",
+          "Runs faster than code",
+          "Is compiled directly",
+          "Is only for experts"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which of the following best describes the evolution of programming models?",
+        options: [
+          "From procedural to object-oriented to event-driven",
+          "From object-oriented to procedural",
+          "From flowcharts to pseudocode",
+          "From user to developer"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which is the best reason to use a flowchart?",
+        options: [
+          "To visually represent program logic",
+          "To write code faster",
+          "To store data",
+          "To test a program"
+        ],
+        answer: 0
+      },
+      {
+        question: "What is the main purpose of maintenance in the program development cycle?",
+        options: [
+          "Fix bugs and update the program",
+          "Write initial code",
+          "Draw flowcharts",
+          "Analyze the problem"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which is a correct example of a sentinel value?",
+        options: [
+          "-1 to stop input loop",
+          "0 to start counting",
+          "1 as a flag",
+          "100 as a default"
+        ],
+        answer: 0
+      },
+      {
+        question: "What is the output of the following logic: If input is 7, display 'Odd'?",
+        options: [
+          "'Odd'",
+          "'Even'",
+          "'Prime'",
+          "'Seven'"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which is NOT a valid flowchart symbol?",
+        options: [
+          "Circle",
+          "Diamond",
+          "Parallelogram",
+          "Rectangle"
+        ],
+        answer: 0
+      },
+
+      // 31-40
+      {
+        question: "Which is a benefit of using flowcharts?",
+        options: [
+          "They make logic easier to understand",
+          "They increase code speed",
+          "They are required by all compilers",
+          "They replace documentation"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which is the correct order for handling errors in a program?",
+        options: [
+          "Detect error, analyze, fix, retest",
+          "Analyze, fix, detect, retest",
+          "Fix, detect, analyze, retest",
+          "Detect, retest, fix, analyze"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which tool is most commonly used to write pseudocode?",
+        options: [
+          "Plain text editor",
+          "Compiler",
+          "Web browser",
+          "Spreadsheet"
+        ],
+        answer: 0
+      },
+      {
+        question: "What does the term 'debugging' mean?",
+        options: [
+          "Finding and fixing errors in a program",
+          "Writing new features",
+          "Creating flowcharts",
+          "Documenting the program"
+        ],
+        answer: 0
+      },
+      {
+        question: "What is the main goal of program documentation?",
+        options: [
+          "Help others understand and maintain the code",
+          "Make code run faster",
+          "Reduce program size",
+          "Increase complexity"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which is an example of an event in event-driven programming?",
+        options: [
+          "Mouse click",
+          "While loop",
+          "Variable assignment",
+          "Function call"
+        ],
+        answer: 0
+      },
+      {
+        question: "What is the shape for the Start/End symbol in a flowchart?",
+        options: [
+          "Oval",
+          "Diamond",
+          "Rectangle",
+          "Parallelogram"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which is an example of a process in a flowchart?",
+        options: [
+          "Add two numbers",
+          "Ask for input",
+          "Display output",
+          "Make a decision"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which is the most important reason for using a sentinel value?",
+        options: [
+          "To know when to stop processing input",
+          "To increase program speed",
+          "To create infinite loops",
+          "To reduce memory usage"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which is NOT an example of user input?",
+        options: [
+          "Output on screen",
+          "Typing data",
+          "Clicking a button",
+          "Selecting from a menu"
+        ],
+        answer: 0
+      }
+    ];
+
+    // Shuffle and select 20 questions
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+    const questions = shuffle([...questionPool]).slice(0, 20);
+
+    let current = 0, score = 0;
+
+    function showQuestion() {
+      if (current < questions.length) {
+        const q = questions[current];
+        let html = `<div><b>Question ${current + 1} of 20:</b> ${q.question}</div>`;
+        html += q.options.map((opt, i) =>
+          `<label class="option">
+            <input type="radio" name="option" value="${i}">
+            ${opt}
+          </label>`
+        ).join('');
+        document.getElementById('question-block').innerHTML = html;
+        document.getElementById('feedback').textContent = '';
+      } else {
+        document.getElementById('question-block').innerHTML = "Quiz complete!";
+        document.getElementById('submit-btn').style.display = "none";
+        document.getElementById('score').textContent = `Your score: ${score}/${questions.length}`;
+      }
+    }
+
+    function submitAnswer() {
+      const radios = document.getElementsByName('option');
+      let chosen = null;
+      for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+          chosen = i;
+          break;
+        }
+      }
+      if (chosen === null) {
+        document.getElementById('feedback').textContent = "Please select an answer.";
+        return;
+      }
+      if (parseInt(chosen) === questions[current].answer) {
+        document.getElementById('feedback').textContent = "Correct!";
+        score++;
+        current++;
+        setTimeout(showQuestion, 800);
+      } else {
+        document.getElementById('feedback').textContent = "Incorrect. Please try again.";
+      }
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
